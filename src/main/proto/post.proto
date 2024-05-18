@@ -14,6 +14,7 @@ enum PostStatus {
   DRAFT = 0;
   PUBLISHED = 1;
   ARCHIVED = 2;
+  DELETED = 3;
 }
 
 enum PostLanguage {
@@ -24,10 +25,10 @@ enum PostLanguage {
 message CreatePostRequest {
   string title = 1;
   string body = 2;
-  int64 subcategoryId=3;
+  int32 subcategoryId=3;
   PostStatus postStatus=4;
   PostLanguage postLanguage=5;
-  int64 programmingLanguageId=6;
+  int32 programmingLanguageId=6;
 }
 
 message CreatePostResponse {
@@ -42,10 +43,10 @@ message GetPostResponse {
   string id = 1;
   string title = 2;
   string body = 3;
-  int64 subcategoryId=4;
+  int32 subcategoryId=4;
   PostStatus postStatus=5;
   PostLanguage postLanguage=6;
-  int64 programmingLanguageId=7;
+  int32 programmingLanguageId=7;
 }
 
 message UpdatePostRequest {
