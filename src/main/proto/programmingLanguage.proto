@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package dev.yousef.blog.grpc;
+
+service ProgrammingLanguageService {
+  rpc CreateProgrammingLanguage(CreateProgrammingLanguageRequest) returns (CreateProgrammingLanguageResponse);
+  rpc GetProgrammingLanguage(GetProgrammingLanguageRequest) returns (GetProgrammingLanguageResponse);
+  rpc DeleteProgrammingLanguage(DeleteProgrammingLanguageRequest) returns (DeleteProgrammingLanguageResponse);
+  rpc ListProgrammingLanguages(ListProgrammingLanguagesRequest) returns (ListProgrammingLanguagesResponse);
+}
+message CreateProgrammingLanguageRequest {
+  int32 id=1;
+  string name=2;
+}
+
+message CreateProgrammingLanguageResponse {
+  int32 id=1;
+}
+
+message DeleteProgrammingLanguageRequest {
+  int32 id=1;
+}
+
+message DeleteProgrammingLanguageResponse {
+  int32 id=1;
+}
+
+message GetProgrammingLanguageRequest {
+  int32 id=1;
+}
+
+message GetProgrammingLanguageResponse {
+  int32 id=1;
+  string name=2;
+}
+
+message ListProgrammingLanguagesRequest {
+  int32 page = 1;
+  int32 size = 2;
+}
+
+message ListProgrammingLanguagesResponse {
+  repeated GetProgrammingLanguageResponse programmingLanguages = 1;
+}
+

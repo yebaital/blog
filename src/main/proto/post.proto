@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package dev.yousef.blog.grpc;
+
+service PostService {
+  rpc CreatePost(CreatePostRequest) returns (CreatePostResponse);
+  rpc GetPost(GetPostRequest) returns (GetPostResponse);
+  rpc UpdatePost(UpdatePostRequest) returns (UpdatePostResponse);
+  rpc DeletePost(DeletePostRequest) returns (DeletePostResponse);
+  rpc ListPosts(ListPostsRequest) returns (ListPostsResponse);
+}
+
+enum PostStatus {
+  DRAFT = 0;
+  PUBLISHED = 1;
+  ARCHIVED = 2;
+}
+
+enum PostLanguage {
+  ENGLISH = 0;
+  ARABIC = 1;
+}
+
+message CreatePostRequest {
+  string title = 1;
+  string body = 2;
+  int64 subcategoryId=3;
+  PostStatus postStatus=4;
+  PostLanguage postLanguage=5;
+  int64 programmingLanguageId=6;
+}
+
+message CreatePostResponse {
+  string id = 1;
+}
+
+message GetPostRequest {
+  string id = 1;
+}
+
+message GetPostResponse {
+  string id = 1;
+  string title = 2;
+  string body = 3;
+  int64 subcategoryId=4;
+  PostStatus postStatus=5;
+  PostLanguage postLanguage=6;
+  int64 programmingLanguageId=7;
+}
+
+message UpdatePostRequest {
+  string id = 1;
+  string title = 2;
+  string body = 3;
+  int32 subcategoryId=4;
+  PostStatus postStatus=5;
+  PostLanguage postLanguage=6;
+  int32 programmingLanguageId=7;
+}
+
+message UpdatePostResponse {
+  string id = 1;
+}
+
+message DeletePostRequest {
+  string id = 1;
+}
+
+message DeletePostResponse {
+  string id = 1;
+}
+
+message ListPostsRequest {
+  int32 page = 1;
+  int32 size = 2;
+}
+
+message ListPostsResponse {
+  repeated GetPostResponse posts = 1;
+}

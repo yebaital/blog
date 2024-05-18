@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package dev.yousef.blog.grpc;
+
+service SubcategoryService {
+  rpc CreateSubcategory(CreateSubcategoryRequest) returns (CreateSubcategoryResponse);
+  rpc GetSubcategory(GetSubcategoryRequest) returns (GetSubcategoryResponse);
+  rpc DeleteSubcategory(DeleteSubcategoryRequest) returns (DeleteSubcategoryResponse);
+  rpc ListSubcategories(ListSubcategoriesRequest) returns (ListSubcategoriesResponse);
+}
+
+message CreateSubcategoryRequest {
+  int32 id=1;
+  string name=2;
+}
+
+message CreateSubcategoryResponse {
+  int32 id=1;
+}
+
+message DeleteSubcategoryRequest {
+  int32 id=1;
+}
+
+message DeleteSubcategoryResponse {
+  int32 id=1;
+}
+
+message GetSubcategoryRequest {
+  int32 id=1;
+}
+
+message GetSubcategoryResponse {
+  int32 id=1;
+  string name=2;
+}
+
+message ListSubcategoriesRequest {
+  int32 page = 1;
+  int32 size = 2;
+}
+
+message ListSubcategoriesResponse {
+  repeated GetSubcategoryResponse subcategories = 1;
+}
