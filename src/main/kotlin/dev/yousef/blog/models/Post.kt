@@ -3,6 +3,9 @@ package dev.yousef.blog.models
 import io.quarkus.hibernate.reactive.panache.kotlin.PanacheCompanion
 import io.quarkus.hibernate.reactive.panache.kotlin.PanacheEntity
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToOne
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.InvalidObjectException
@@ -13,21 +16,28 @@ class Post : PanacheEntity() {
 
     var title: String? = null
     var body: String? = null
-    val subcategoryId: Int = 0
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    val subcategory: Subcategory? = null
+
+
     var postStatus: PostStatus? = null
     var postLanguage: PostLanguage? = null
-    val programmingLanguageId: Int = 0
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    val programmingLanguage: ProgrammingLanguage? = null
 
     companion object : PanacheCompanion<Post> {
-        suspend fun create(post: Post) = withContext(Dispatchers.IO) {
+        fun create(post: Post): Post {
             if (post.isValid()) {
                 post.persist<Post>()
-                post
+                return post
             } else {
                 throw InvalidObjectException("Post object is invalid")
             }
         }
-        //TODO: The rest of the service methods
+
+        fun listAllPosts(): List<Post> = Post.listAll().await().indefinitely()
     }
 
 
@@ -49,8 +59,8 @@ fun Post.isValid(): Boolean {
             postStatus != null &&
             postLanguage != null &&
             // check if rest of fields are not null
-            this.subcategoryId != 0 &&
-            this.programmingLanguageId != 0
+            this.subcategory != null &&
+            this.programmingLanguage != null
 }
 
 
