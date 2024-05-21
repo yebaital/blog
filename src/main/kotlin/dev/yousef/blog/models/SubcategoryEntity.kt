@@ -8,22 +8,27 @@ import jakarta.persistence.ManyToOne
 import java.io.InvalidObjectException
 
 @Entity
-class Subcategory : PanacheEntity() {
+class SubcategoryEntity : PanacheEntity() {
 
     var name: String? = ""
 
     @ManyToOne
-    lateinit var category: Category
+    lateinit var category: CategoryEntity
 
-    companion object : PanacheCompanion<Subcategory> {
-        fun create(subcategory: Subcategory): Uni<Void>? {
+    companion object : PanacheCompanion<SubcategoryEntity> {
+
+        fun findById(id: String): Uni<SubcategoryEntity?> {
+            return find(id,"id").firstResult()
+        }
+
+        fun create(subcategory: SubcategoryEntity): Uni<Void>? {
             if (!subcategory.name.isNullOrEmpty()) {
-                return Subcategory.persist(subcategory)
+                return SubcategoryEntity.persist(subcategory)
             } else {
                 throw InvalidObjectException("Category object is invalid")
             }
         }
 
-        fun listAllCategories(): Uni<List<Subcategory>> = Subcategory.listAll()
+        fun listAllSubcategories(): Uni<List<SubcategoryEntity>> = SubcategoryEntity.listAll()
     }
 }

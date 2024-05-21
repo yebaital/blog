@@ -9,21 +9,21 @@ import jakarta.persistence.OneToMany
 import java.io.InvalidObjectException
 
 @Entity
-class Category : PanacheEntity() {
+class CategoryEntity : PanacheEntity() {
 
     var name: String? = ""
 
     @OneToMany(mappedBy = "category", cascade = [CascadeType.ALL], orphanRemoval = true)
-    var subcategories: MutableSet<Subcategory> = HashSet()
+    var subcategories: MutableSet<SubcategoryEntity> = HashSet()
 
-    companion object : PanacheCompanion<Category> {
-        fun create(category: Category): Uni<Void>?  {
+    companion object : PanacheCompanion<CategoryEntity> {
+        fun create(category: CategoryEntity): Uni<Void>?  {
             if (!category.name.isNullOrEmpty()) {
-                return Category.persist(category)
+                return CategoryEntity.persist(category)
             } else {
                 throw InvalidObjectException("Category object is invalid")
             }
         }
-        fun listAllCategories(): Uni<List<Category>> = Category.listAll()
+        fun listAllCategories(): Uni<List<CategoryEntity>> = CategoryEntity.listAll()
     }
 }

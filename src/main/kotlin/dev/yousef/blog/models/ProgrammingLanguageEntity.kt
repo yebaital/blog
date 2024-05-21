@@ -10,23 +10,28 @@ import jakarta.persistence.OneToMany
 import java.io.InvalidObjectException
 
 @Entity
-class ProgrammingLanguage : PanacheEntity() {
+class ProgrammingLanguageEntity : PanacheEntity() {
     var name: String? = ""
 
     @OneToMany(mappedBy = "post", cascade = [CascadeType.ALL], orphanRemoval = true)
-    var posts: MutableSet<Post> = HashSet()
+    var postEntities: MutableSet<PostEntity> = HashSet()
 
-    companion object : PanacheCompanion<ProgrammingLanguage> {
-        fun create(programmingLanguage: ProgrammingLanguage): Uni<Void>? {
+    companion object : PanacheCompanion<ProgrammingLanguageEntity> {
+
+        fun findById(id: String): Uni<ProgrammingLanguageEntity?> {
+            return find("id", id).firstResult()
+        }
+
+        fun create(programmingLanguage: ProgrammingLanguageEntity): Uni<Void>? {
             if (!programmingLanguage.name.isNullOrBlank()) {
-                return ProgrammingLanguage.persist(programmingLanguage)
+                return ProgrammingLanguageEntity.persist(programmingLanguage)
             } else {
                 throw InvalidObjectException("Programming Language object is invalid")
             }
         }
 
-        fun listAllProgrammingLanguages(): Uni<List<ProgrammingLanguage>> =
-            ProgrammingLanguage.listAll()
+        fun listAllProgrammingLanguages(): Uni<List<ProgrammingLanguageEntity>> =
+            ProgrammingLanguageEntity.listAll()
 
         //TODO: The rest of the service methods
     }
