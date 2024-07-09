@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from "next/link";
-import {Button} from "@/components/ui/button";
-import {SiGithub} from "react-icons/si";
+import LoginForm from "@/components/nav/LoginForm";
 
 export default function Navbar() {
     return <nav className="flex items-center justify-between">
@@ -15,6 +14,6 @@ export default function Navbar() {
             <div className="h-1 w-0 group-hover:w-full transition-all bg-red-500"></div>
         </div>
 
-        <Button variant="outline" className="flex items-center gap-2"> <SiGithub/>Login</Button>
+        <LoginForm/>
     </nav>;
 }
