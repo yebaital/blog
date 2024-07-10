@@ -1,5 +1,5 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
-import { NextResponse, type NextRequest } from 'next/server'
+import {createServerClient, type CookieOptions} from '@supabase/ssr'
+import {NextResponse, type NextRequest} from 'next/server'
 
 export async function middleware(request: NextRequest) {
     let supabaseResponse = NextResponse.next({
@@ -15,11 +15,11 @@ export async function middleware(request: NextRequest) {
                     return request.cookies.getAll()
                 },
                 setAll(cookiesToSet) {
-                    cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
+                    cookiesToSet.forEach(({name, value}) => request.cookies.set(name, value))
                     supabaseResponse = NextResponse.next({
                         request,
                     })
-                    cookiesToSet.forEach(({ name, value, options }) =>
+                    cookiesToSet.forEach(({name, value, options}) =>
                         supabaseResponse.cookies.set(name, value, options)
                     )
                 },
@@ -31,9 +31,15 @@ export async function middleware(request: NextRequest) {
     // supabase.auth.getUser(). A simple mistake could make it very hard to debug
     // issues with users being randomly logged out.
 
-    const {
-        data: { user },
-    } = await supabase.auth.getUser()
+    const {data: {user},} = await supabase.auth.getUser()
+
+    if (user) {
+        if (user.user_metadata.role !== "admin") {
+            return NextResponse.redirect(new URL("/", request.url))
+        }
+    } else {
+        return NextResponse.redirect(new URL("/", request.url))
+    }
 
     // if (
     //     !user &&
@@ -71,6 +77,7 @@ export const config = {
          * - favicon.ico (favicon file)
          * Feel free to modify this pattern to include more paths.
          */
-        '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+        // '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+        '/dashboard/:path*',
     ],
 }
