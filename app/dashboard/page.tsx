@@ -1,7 +1,7 @@
 import {Button} from "@/components/ui/button";
 import {PlusIcon} from "@radix-ui/react-icons";
 import Link from "next/link";
-import BlogTable from "@/app/dashboard/components/BlogTable";
+import BlogTable from "@/app/dashboard/blog/components/BlogTable";
 
 export default function Dashboard() {
     return (
